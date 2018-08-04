@@ -1,0 +1,32 @@
+<html>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <head>
+        <title>Niveau meting</title>
+    </head>
+    <body>
+        <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.2.min.js"></script>
+        <script src="http://ajax.aspnetcdn.com/ajax/knockout/knockout-2.2.1.js"></script>
+        <h1>Meting sensor</h1>
+
+        <p>Meting: <span class="lead" data-bind="text: hcsr04"></span> cm</p>
+    </body>
+
+    <script type="text/javascript">	
+        var SensorViewModel = function() {
+            var self = this;
+            self.hcsr04 = ko.observable("");
+        };
+        
+        $(function() {
+            var viewModel = new SensorViewModel();
+			
+			jQuery.getJSON("/api/sensor", function (data) {  
+                viewModel.hcsr04(Math.round(data.param * 100) / 100);
+			});
+					 
+            ko.applyBindings(viewModel);       
+            
+        });      
+
+    </script>
+</html>
